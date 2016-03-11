@@ -1,0 +1,29 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "Classical rock-paper-scissors game",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "author": "Vladimir Filimon <vladfilimon@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vfil/rps.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.5",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.4.5",
+    "phantomjs-prebuilt": "^2.1.5",
+    "webpack": "^1.12.14"
+  }
+}
