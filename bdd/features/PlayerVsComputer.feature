@@ -8,7 +8,7 @@ Feature: Playing against Computer
     When "Computer" picks up "Scissors"
     Then "Player" wins
 
-  Scenario: "Paper" covers "Rock"
+  Scenario: Paper covers "Rock"
     Given "Player" picks up "Rock"
     When "Computer" picks up "Paper"
     Then "Computer" wins
@@ -17,3 +17,18 @@ Feature: Playing against Computer
     Given "Player" picks up "Scissors"
     When "Computer" picks up "Paper"
     Then "Player" wins
+
+  Scenario Rock equality
+    Given "Player" picks up "Rock"
+    When "Computer" picks up "Rock"
+    Then "Nobody" wins
+
+  Scenario Paper equality
+    Given "Player" picks up "Paper"
+    When "Computer" picks up "Paper"
+    Then "Nobody" wins
+
+  Scenario Scissors equality
+    Given "Player" picks up "Scissors"
+    When "Computer" picks up "Scissors"
+    Then "Nobody" wins
