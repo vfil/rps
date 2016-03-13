@@ -2,86 +2,59 @@
 
 var expect = require('chai').expect;
 
-//TODO: investigate mocha test generators
+var EventEmitter = require('../src/js/common/eventEmitter.js');
+var Game = require('../src/js/game.js');
+var Player = require('../src/js/model/player.js');
+
 describe('Game specs:', function () {
 
-    var gestures = ["rock", "paper", "scissors"];
+    var eventEmitter,
+      game,
+      players;
+    var gestures = ['rock', 'paper', 'scissors'];
+    var counts = ['Ro!', 'Sham!', 'Bo!!!'];
 
-    it('#play() Player1: Rock, Player2: Scissors', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
-
-        player1.setGesture(gestures[0]);
-        player2.setGesture(gestures[2]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.eql(player1);
+    beforeEach(function () {
+        eventEmitter = EventEmitter();
+        players = [Player('Foo'), Player('Computer')];
+        game = Game(players, gestures, counts, eventEmitter);
     });
 
-    it('#play() Player1: Rock, Player2: Paper', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
+    it('should set a random gesture for bots', function () {
+        var player = players[0];
+        eventEmitter.emit('gestureChange', {player: player, gesture: 'rock'});
 
-        player1.setGesture(gestures[0]);
-        player2.setGesture(gestures[1]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.eql(player2);
+        players.forEach(function (player) {
+            expect((gestures.indexOf(player.getGesture()) !== -1)).to.equals(true);
+        })
     });
 
-    it('#play() Player1: Scissors, Player2: Paper', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
+    it('should update accordingly gesture for player', function () {
+        var player = players[0];
+        eventEmitter.emit('gestureChange', {player: player, gesture: 'paper'});
 
-        player1.setGesture(gestures[2]);
-        player2.setGesture(gestures[1]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.eql(player1);
+        expect(player.getGesture()).to.equals('paper');
     });
 
-    it('#play() Player1: Rock, Player2: Rock', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
+    it('should emit countdownStart event', function (done) {
+        var player = players[0];
+        eventEmitter.on('countdownStart', function() {
+            done();
+        });
+        eventEmitter.emit('gestureChange', {player: player, gesture: 'paper'});
 
-        player1.setGesture(gestures[0]);
-        player2.setGesture(gestures[0]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.be.undefined;
     });
 
-    it('#play() Player1: Paper, Player2: Paper', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
+    it('should emit score event', function (done) {
+        this.timeout(5000);
+        eventEmitter.on('score', function(winner) {
+            expect(winner).to.eql(player2);
+            done();
+        });
 
-        player1.setGesture(gestures[1]);
-        player2.setGesture(gestures[1]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.be.undefined;
-    });
-
-    it('#play() Player1: Scissors, Player2: Scissors', function () {
-        var player1 = new Player('Human');
-        var player2 = new Player('Computer');
-
-        player1.setGesture(gestures[2]);
-        player2.setGesture(gestures[2]);
-
-        var game = Game([player1, player2], gestures);
-
-        expect(game.play(), 'Game returned wrong winner')
-          .to.be.undefined;
+        var player1 = players[0];
+        var player2 = players[1];
+        eventEmitter.emit('gestureChange', {player: player1, gesture: 'paper'});
+        eventEmitter.emit('gestureChange', {player: player2, gesture: 'scissors'});
     });
 });

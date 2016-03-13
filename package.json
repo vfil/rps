@@ -4,7 +4,11 @@
   "description": "Classical rock-paper-scissors game",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "dev": "node ./build.js DEV",
+    "test": "./node_modules/.bin/karma start",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
+    "generate-docs": "./node_modules/.bin/jsdoc src/* -d docs",
+    "score": "node src/js/main.js"
   },
   "author": "Vladimir Filimon <vladfilimon@gmail.com>",
   "repository": {
@@ -13,10 +17,12 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.11.1",
     "chai": "^3.5.0",
+    "istanbul": "^0.4.2",
+    "jsdoc": "^3.4.0",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.2",
-    "karma-coverage": "^0.5.5",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.0",
@@ -24,6 +30,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.5",
+    "sinon": "^1.17.3",
     "webpack": "^1.12.14"
   }
 }
