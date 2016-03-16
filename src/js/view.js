@@ -11,20 +11,29 @@ module.exports = function (players, gestures, eventEmitter) {
       .filter(function (player) {
           return player.isHuman();
       })
-      .map(function (player) {
+      .map(function (player, index) {
           var container = document.createElement('div');
+          container.className = 'player-' + index;
+
+          //player selection
+          var userSelection = document.createElement('div');
+          userSelection.className = 'user-selection';
+
           gestures.forEach(function (gesture) {
               var button = document.createElement('button');
               button.className = 'punch';
               button.innerText = gesture;
               container.appendChild(button);
-              (function (player, gesture) {
-                  button.onclick = function () {
-                      eventEmitter.emit('gestureChange', {player: player, gesture: gesture});
-                      eventEmitter.emit('activeButtonChange', {container: container, button: button});
-                  };
-              })(player, gesture)
+              //handlers
+              button.onclick = function () {
+                  eventEmitter.emit('gestureChange', {player: player, gesture: gesture});
+                  eventEmitter.emit('activeButtonChange', {container: container, button: button});
+                  userSelection.innerText = gesture;
+              };
+
           });
+
+          container.appendChild(userSelection);
 
           return container;
       });
@@ -41,7 +50,7 @@ module.exports = function (players, gestures, eventEmitter) {
     eventEmitter.on('score', function (winner) {
         setTimeout(function () {
             infoArea.innerText = winner ? winner.getName() + " Wins!!!" : 'TIE';
-            setTimeout(function() {
+            setTimeout(function () {
                 enableButtons();
             }, 500);
         }, 1000);

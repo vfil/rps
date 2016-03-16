@@ -1,5 +1,7 @@
 'use strict';
 
+var Round = require('./model/round.js');
+
 /**
  * Generic game class
  * @param {Player[]} players - a collection of players participants to the game.
@@ -8,8 +10,6 @@
  * @param {EventEmitter} eventEmitter - a event system used for intercomponent communication
  */
 module.exports = function (players, gestures, counts, eventEmitter) {
-
-    var Round = require('./model/round.js');
 
     /**
      * A reference to current game round.
@@ -52,14 +52,12 @@ module.exports = function (players, gestures, counts, eventEmitter) {
      */
     function count(cb) {
         counts.forEach(function (count, index) {
-            (function (count) {
-                setTimeout(function () {
-                    eventEmitter.emit('countdown', count);
-                    if (index == counts.length - 1) {
-                        cb();
-                    }
-                }, index * 1000);
-            })(count);
+            setTimeout(function () {
+                eventEmitter.emit('countdown', count);
+                if (index == counts.length - 1) {
+                    cb();
+                }
+            }, index * 1000);
         });
     }
 

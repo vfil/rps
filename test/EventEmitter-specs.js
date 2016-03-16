@@ -25,32 +25,41 @@ describe('EventEmitter specs:', function () {
     it("should unsubscribe properly", function () {
         var spy = sinon.spy();
 
-        var subscriber = emitter.on('dummyEvent', spy);
-        emitter.emit('dummyEvent', {});
+        var subscriber = emitter.on('event', spy);
+        emitter.emit('event', {});
 
         subscriber();
-        emitter.emit('dummyEvent', {});
+        emitter.emit('event', {});
         expect(spy.callCount).to.equal(1);
     });
 
     it("should delete only needed listener even if unsubsribe is called multiple times", function () {
         var calls = 0;
-        var subscriber1 = emitter.on('dummyEvent', function () {
+        var subscriber1 = emitter.on('dummyEvent', function first() {
             calls++
         });
-        var subscriber2 = emitter.on('dummyEvent', function () {
+        var subscriber2 = emitter.on('dummyEvent', function second() {
             calls++
         });
+
+        var subscriber3 = emitter.on('dummyEvent2', function third() {
+            calls++
+        });
+        var subscriber4 = emitter.on('dummyEvent3', function four() {
+            calls++
+        });
+
+
         emitter.emit('dummyEvent', {});
 
-        subscriber2();
-        subscriber2();
-        subscriber2();
+        subscriber1();
+        subscriber1();
+        subscriber1();
 
         emitter.emit('dummyEvent', {});
         expect(calls).to.equal(3);
 
-        subscriber1();
+        subscriber2();
         emitter.emit('dummyEvent', {});
         expect(calls).to.equal(3);
     });

@@ -22,23 +22,32 @@ module.exports = function () {
          */
         on: function (topic, listener) {
 
+            //validate listener
+            if (typeof listener !== 'function') {
+                throw new Error('Expected listener to be a function.')
+            }
+
             //check if such topic exists and add one
             if (!topics.hasOwnProperty(topic)) {
                 topics[topic] = [];
             }
 
             //Add listener to queue
-            var index = topics[topic].push(listener) - 1;
+            topics[topic].push(listener);
 
-            //return subscriber function
-            return (function () {
-                var executed = false;
-                return function () {
-                    if (!executed) {
-                        topics[topic].splice(index);
-                    }
+            //flag to indicate state of current listener
+            //and to prevent removing other listeners by calling unsubscribe multiple times
+            var isSubscribed = true;
+
+            //return unsubscribe function
+            return function () {
+
+                if (isSubscribed) {
+                    isSubscribed = false;
+                    var index = topics[topic].indexOf(listener);
+                    topics[topic].splice(index, 1);
                 }
-            })();
+            };
         },
 
         /**
