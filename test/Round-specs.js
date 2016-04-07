@@ -2,8 +2,8 @@
 
 var expect = require('chai').expect;
 
-var Player = require('../src/js/model/player.js');
-var Round = require('../src/js/model/round.js');
+var Player = require('../src/js/domain/Player.js');
+var Round = require('../src/js/domain/Round.js');
 
 //TODO: investigate mocha test generators
 describe('Game specs:', function () {
