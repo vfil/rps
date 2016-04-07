@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "node ./build.js DEV",
     "test": "./node_modules/.bin/karma start",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
-    "generate-docs": "./node_modules/.bin/jsdoc src/* -d docs",
-    "score": "node src/js/main.js"
+    "coverage": "./node_modules/.bin/karma start karma-coverage.conf.js",
+    "generate-docs": "./node_modules/.bin/jsdoc src README.md -r -c jsdoc.conf.json -d docs"
   },
   "author": "Vladimir Filimon <vladfilimon@gmail.com>",
   "repository": {
@@ -20,11 +19,14 @@
     "browser-sync": "^2.11.1",
     "chai": "^3.5.0",
     "istanbul": "^0.4.2",
+    "istanbul-instrumenter-loader": "^0.2.0",
     "jsdoc": "^3.4.0",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.5",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
