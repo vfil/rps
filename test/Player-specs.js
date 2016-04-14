@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var Player = require('../src/js/domain/Player.js');
+var Player = require('../src/js/domain/player.js');
 
 describe('Player specs:', function () {
 

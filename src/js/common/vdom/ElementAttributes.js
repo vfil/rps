@@ -24,7 +24,6 @@ module.exports = {
     },
     /**
      * Map of props to element attributes.
-     * @type {{propName: {string}}}
      * @readonly
      */
     attributeNames: {

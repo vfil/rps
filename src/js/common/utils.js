@@ -8,7 +8,6 @@ var utils = {};
  * @returns {{}}
  */
 utils.generateDynamicProps = function (obj, func) {
-    var i = 0;
     var ret = {};
     for (var key in obj) {
         /* istanbul ignore else */

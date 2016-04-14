@@ -5,10 +5,10 @@ var VComponent = require('../common/vdom/VComponent.js');
 
 module.exports = VComponent.createClass({
 
-    onClick: function() {
-        this.props.onGestureChange(this.props.player, this.props.gesture);
+    onClick: function () {
+        this.props.onGestureChange(this.props.playerName, this.props.gesture);
     },
-    render: function() {
+    render: function () {
         var cssClasses = this.props.active ? this.props.gesture + ' punch active' : this.props.gesture + ' punch';
         return Vtag.button({className: cssClasses, onClick: this.onClick.bind(this)}, '');
     }

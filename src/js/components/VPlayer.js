@@ -8,11 +8,12 @@ module.exports = VComponent.createClass({
     render: function() {
         return VTag.div(null,
             [
-                VTag.div(null, this.props.player.getName()),
+                VTag.div(null, this.props.player.name),
                 VGestures({
+                    counting: this.props.counting,
                     player: this.props.player,
                     gestures: this.props.gestures,
-                    onGestureChange: this.props.onGestureChange
+                    onGestureChange: this.props.player.isHuman ? this.props.onGestureChange : function() {}
                 })
             ]
         );
