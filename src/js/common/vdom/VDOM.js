@@ -178,7 +178,6 @@ var EVENT_TYPES = [
  * Map of UID to root Components rendered on the page.
  * @private
  */
-//TODO will we have more then one instance ever???
 var instancesByRootID = {};
 
 /**
@@ -186,7 +185,6 @@ var instancesByRootID = {};
  * @private
  * @type {{}}
  */
-//TODO will we have more then one container ever???
 var containersByRootID = {};
 
 /**
@@ -298,14 +296,13 @@ function attachGlobalListener(container) {
     EVENT_TYPES.forEach(function (eventType) {
         //add listener on the top on capture phase,
         //as focus, blur, etc. doesn't bubble.
-        //TODO analise consequences listening in capture phase.
         container.addEventListener(eventType, function (event) {
             var nodeUID = getID(event.target);
             var listener = VDOM.getListener(nodeUID, event.type);
             if (listener) {
                 listener(event);
             }
-        }, true);
+        }, false);
     });
 }
 
@@ -316,7 +313,6 @@ function attachGlobalListener(container) {
  * @private
  */
 function getNode(uid) {
-    //TODO we have only one root component on page, optimize containersByRootID structure;
     var ancestorNode = containersByRootID['.0'];
     var firstChildren = [];
     var childIndex = 0;
@@ -346,14 +342,12 @@ function getNode(uid) {
  * @private
  */
 function processUpdates(updateList, markupList) {
-
-    //TODO foreach vs for, performance vs readability.
     //retrieve parentNode for each update message
     for (var m = 0; m < updateList.length; m++) {
         updateList[m].parentNode = getNode(updateList[m].parentID);
     }
 
-    //process remove, before new markup for consistency.
+    //process remove before new markup for consistency.
     var update;
     for (var i = 0; update = updateList[i]; i++) {
         if (update.type === UPDATE_TYPES.REMOVE_NODE) {

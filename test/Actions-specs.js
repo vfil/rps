@@ -1,18 +1,18 @@
 'use strict';
 
 var expect = require('chai').expect;
-var Actions = require('../src/js/common/actions.js');
+var Actions = require('../src/js/actions.js');
 
 describe('Actions specs:', function () {
     //TODO mocha test generator???
     it('#gestureChange should create proper action', function () {
-        var dummyPlayer = {};
+        var name = 'Player1';
         var expectedAction = {
             type: 'GESTURE_CHANGE',
             gesture: 'rock',
-            player: dummyPlayer
+            playerName: name
         };
-        expect(Actions.gestureChange(dummyPlayer, 'rock')).to.eql(expectedAction);
+        expect(Actions.gestureChange(name, 'rock')).to.eql(expectedAction);
     });
 
     it('#countdown should create proper action', function () {
@@ -34,10 +34,12 @@ describe('Actions specs:', function () {
     });
 
     it('#addBot should create proper action', function () {
+        var dumbPlayer = {};
         var expectedAction = {
-            type: 'ADD_BOT'
+            type: 'ADD_BOT',
+            player: dumbPlayer
         };
-        expect(Actions.addBot()).to.eql(expectedAction);
+        expect(Actions.addBot(dumbPlayer)).to.eql(expectedAction);
     });
 
     it('#removeBot should create proper action', function () {

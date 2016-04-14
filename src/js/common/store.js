@@ -76,7 +76,7 @@ module.exports = function (reducer, initialState) {
 
         /**
          * Registers a listener which will be called each time state changes.
-         * Returns a function - when called unsubscribe listener.
+         * Returns a function - when called unsubscribes listener.
          * @instance
          * @param {function} listener - listener to be registered.
          * @returns {Function}

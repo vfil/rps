@@ -8,10 +8,10 @@ module.exports = VComponent.createClass({
     render: function() {
 
         var gesturesView = this.props.gestures.map(function(gesture) {
-            var active = gesture === this.props.player.getGesture();
+            var active = (this.props.player.isHuman || !this.props.counting) && gesture === this.props.player.gesture;
             return VGesture({
                 active: active,
-                player: this.props.player,
+                playerName: this.props.player.name,
                 gesture: gesture,
                 onGestureChange: this.props.onGestureChange
             });

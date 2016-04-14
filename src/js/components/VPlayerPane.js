@@ -9,6 +9,7 @@ module.exports = VComponent.createClass({
 
         var playerViews = this.props.players.map(function(player) {
             return VPlayer({
+                counting: this.props.counting,
                 player: player,
                 gestures: this.props.gestures,
                 onGestureChange: this.props.onGestureChange

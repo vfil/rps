@@ -52,14 +52,14 @@ var VComponent = function () {};
  * myDescriptor = myCustomComponentClass(newProps);
  * VDOM.render(myDescriptor, document.getElementById('myApp'));
  */
-//TODO is it ok to put fields on functions???
+
+//Is it ok to put fields on functions? Babel does so for syntactical sugar es6 classes static methods.
+//Heard a lot of complains but no reasons, at the end function is an object.
 VComponent.createClass = function (spec) {
     /**
-     * Mixin of VComponent and provided spec object
-     * Note. spec must have a'render' method.
+     * Returns a mixin of VComponent and provided spec object.
+     * Note. spec must have a 'render' method.
      * @param {Object} props - an object that describes properties of current VComponent.
-     * @constructor
-     * @mixin
      */
     var ComponentMixin = function (props) {
         this.construct(props);

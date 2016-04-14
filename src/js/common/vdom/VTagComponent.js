@@ -5,8 +5,18 @@ var VDOM = require('./VDOM.js');
 var VComponent = require('./VComponent.js');
 var ElementAttributes = require('./ElementAttributes.js');
 
+/**
+ * Container for checking whether component children should be just rendered as text node
+ * opposite to composed components whose children should be recursively updated.
+ * @private
+ */
 var CONTENT_TYPES = {'string': true, 'number': true};
 
+/**
+ * Map of received props keys to DOM events.
+ * Used to map props to appropriate DOM events types.
+ * @private
+ */
 var listenersTypes = {
     onClick: 'click',
     onMouseMove: 'mousemove'
@@ -23,6 +33,7 @@ var VTagComponent = function (tag) {
     this._tagOpen = '<' + tag + ' ';
     this._tagClose = '</' + tag + '>';
     this.tagName = tag.toUpperCase();
+    this._appendIndex = null;
 };
 
 //In fact is also an VComponent which overrides some behaviour
