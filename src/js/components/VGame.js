@@ -4,7 +4,6 @@ var VTag = require('../common/vdom/VTag.js');
 var VComponent = require('../common/vdom/VComponent.js');
 var PlayerPane = require('./VPlayerPane.js');
 var VInfoPane = require('./VInfoPane.js');
-var VRoundLogs = require('./VRoundLogs.js');
 
 module.exports = VComponent.createClass({
     render: function() {
@@ -18,13 +17,13 @@ module.exports = VComponent.createClass({
             counting: this.props.counting,
             players: this.props.rightPane,
             gestures: this.props.gestures,
+            mirror: true,
             onGestureChange: this.props.changeGesture
         });
-        var infoPane = VInfoPane({info: this.props.info});
+        var infoPane = VInfoPane({info: this.props.info, logs: this.props.logs});
 
-        var addPlayer = VTag.button({onClick: this.props.addBot}, 'Add bot');
-        var removePlayer = VTag.button({onClick: this.props.removeBot}, 'remove bot');
-        var logs = VRoundLogs({logs: this.props.logs});
-        return VTag.div(null, [leftPane, infoPane, rightPane, addPlayer, removePlayer, logs]);
+        //var addPlayer = VTag.button({onClick: this.props.addBot}, 'Add bot');
+        //var removePlayer = VTag.button({onClick: this.props.removeBot}, 'remove bot');
+        return VTag.div({className: 'container'}, [leftPane, infoPane, rightPane/*, addPlayer, removePlayer*/]);
     }
 });

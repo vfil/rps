@@ -5,8 +5,10 @@ var VComponent = require('../common/vdom/VComponent.js');
 
 module.exports = VComponent.createClass({
     render: function() {
-        var className = this.props.isWinner ? 'green' : !this.props.isTie ? 'red' : '';
-        var text = this.props.name + ' ' + this.props.gesture;
-        return VTag.div({className: className}, text);
+        //TODO write utils to work with class attributes
+        var directionClass = this.props.index % 2 ? ' log-left' : '';
+        var isWinnerClass = this.props.isWinner ? ' winner' : '';
+        var className = this.props.gesture + '-log' + ' log-icon' + isWinnerClass + directionClass;
+        return VTag.span({className: className}, '');
     }
 });

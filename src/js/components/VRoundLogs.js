@@ -5,10 +5,13 @@ var VComponent = require('../common/vdom/VComponent.js');
 var VRoundLog = require('./VRoundLog.js');
 
 module.exports = VComponent.createClass({
-    render: function() {
+    render: function () {
 
-        var roundLogs = this.props.logs.map(function(roundLog) {
-            return VRoundLog({log: roundLog});
+        var roundLogs = this.props.logs.map(function (roundLog, index) {
+            return VRoundLog({
+                index: index,
+                log: roundLog
+            });
         });
 
         return VTag.div(null, roundLogs);

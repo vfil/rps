@@ -48,4 +48,13 @@ describe('Actions specs:', function () {
         };
         expect(Actions.removeBot()).to.eql(expectedAction);
     });
+
+    it('#updateGestures should create proper action', function () {
+        var gestures = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
+        var expectedAction = {
+            type: 'UPDATE_GESTURES',
+            gestures: gestures
+        };
+        expect(Actions.updateGestures(gestures)).to.eql(expectedAction);
+    });
 });

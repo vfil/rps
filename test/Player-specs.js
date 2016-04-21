@@ -24,4 +24,9 @@ describe('Player specs:', function () {
     it("#isHuman() should show if player is human", function () {
         expect(player.isHuman()).to.equal(true);
     });
+
+    it('#incrementWins should increment wins', function () {
+        player.incrementWins();
+        expect(player.getWins()).to.equal(1);
+    });
 });

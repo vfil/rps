@@ -349,7 +349,7 @@ function processUpdates(updateList, markupList) {
 
     //process remove before new markup for consistency.
     var update;
-    for (var i = 0; update = updateList[i]; i++) {
+    for (var i = updateList.length - 1; update = updateList[i]; i--) {
         if (update.type === UPDATE_TYPES.REMOVE_NODE) {
             var updatedIndex = update.fromIndex;
             var updatedChild = update.parentNode.childNodes[updatedIndex];

@@ -13,6 +13,7 @@ module.exports = VComponent.createClass({
                 active: active,
                 playerName: this.props.player.name,
                 gesture: gesture,
+                human: this.props.player.isHuman,
                 onGestureChange: this.props.onGestureChange
             });
         }.bind(this));
