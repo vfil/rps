@@ -12,6 +12,7 @@ module.exports = function Player(name, isHuman) {
      * @private
      */
     var gesture;
+    var wins = 0;
 
     return {
         /**
@@ -42,12 +43,36 @@ module.exports = function Player(name, isHuman) {
         },
 
         /**
+         * Resets player's gesture.
+         * @public
+         */
+        resetGesture: function () {
+            gesture = null;
+        },
+
+        /**
          * Player human or bot flag getter
          * @public
          * @returns {Boolean}
          */
         isHuman: function () {
             return !!isHuman;
+        },
+
+        /**
+         * Increments by one current player wins number.
+         * @public
+         */
+        incrementWins: function() {
+            wins++;
+        },
+
+        /**
+         * Returns current player wins count.
+         * @returns {number}
+         */
+        getWins: function () {
+            return wins;
         }
     }
 };

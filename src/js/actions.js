@@ -13,7 +13,9 @@ var types = {
     SET_BOTS_GESTURE: null,
     SCORE: null,
     ADD_BOT: null,
-    REMOVE_BOT: null
+    REMOVE_BOT: null,
+    UPDATE_GESTURES: null,
+    RESET_PLAYERS_GESTURES: null
 };
 
 var typesObj = utils.generateDynamicProps(types, keyMirror);
@@ -110,6 +112,28 @@ module.exports = {
     removeBot: function () {
         return {
             type: this.types.REMOVE_BOT
+        }
+    },
+
+    /**
+     * Action to update gesture in game
+     * @params {string[]} gestures - gestures to be replaced
+     * @returns {object}
+     */
+    updateGestures: function (gestures) {
+        return {
+            type: this.types.UPDATE_GESTURES,
+            gestures: gestures
+        }
+    },
+
+    /**
+     * Action to reset gestures for all players
+     * @returns {object}
+     */
+    resetPlayersGestures: function () {
+        return {
+            type: this.types.RESET_PLAYERS_GESTURES
         }
     }
 };

@@ -10,6 +10,7 @@ var VDescriptor = require('./VDescriptor');
  */
 var VTags = utils.generateDynamicProps({
     div: false,
+    span: false,
     button: true
 }, createVTagComponent);
 

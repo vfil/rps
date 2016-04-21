@@ -117,6 +117,7 @@ module.exports = function (players, gestures) {
     /**
      * Check if two numbers have same parity.
      * Internally uses bitwise operation to compare last bit.
+     * @private
      * @param {number} num1
      * @param {number} num2
      * @returns {boolean}

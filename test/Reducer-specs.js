@@ -73,10 +73,10 @@ describe('Reducer specs:', function () {
 
     it('Reducer should handle COUNTDOWN', function () {
         var newState = Reducer(state, Actions.countdown('Ro!'));
-        expect(newState.info).to.equal('Ro!');
+        expect(newState.count).to.equal('Ro!');
     });
 
-    it('Reducer should handle STORE - a player wins', function () {
+    it('Reducer should handle SCORE - a player wins', function () {
         //pretend it was counting before
         state.counting = true;
         //set players gestures
@@ -86,9 +86,9 @@ describe('Reducer specs:', function () {
         var previousLogLength = state.logs.length;
         var newState = Reducer(state, Actions.score(state.players[0]));
         expect(
-          newState.info,
+          newState.winner,
           'Winner is announced'
-        ).to.equal('P0 wins !!!');
+        ).to.eql(state.players[0]);
         expect(
           newState.logs.length,
           'One Round log is added'
@@ -100,22 +100,25 @@ describe('Reducer specs:', function () {
             {
                 name: 'P0',
                 gesture: 'rock',
-                isWinner: true
+                isWinner: true,
+                wins: 0
             },
             {
                 name: 'P1',
                 gesture: 'scissors',
-                isWinner: false
+                isWinner: false,
+                wins: 0
             },
             {
                 name: 'P2',
                 gesture: 'scissors',
-                isWinner: false
+                isWinner: false,
+                wins: 0
             }
         ]);
     });
 
-    it('Reducer should handle STORE - TIE', function () {
+    it('Reducer should handle SCORE - TIE', function () {
         //pretend it was counting before
         state.counting = true;
         //set players gestures
@@ -125,9 +128,13 @@ describe('Reducer specs:', function () {
         var previousLogLength = state.logs.length;
         var newState = Reducer(state, Actions.score(null));
         expect(
-          newState.info,
+          newState.winner,
           'TIE is announced'
-        ).to.equal('TIE!!!');
+        ).to.be.null;
+        expect(
+          newState.scored,
+          'Round is scored'
+        ).to.be.true;
         expect(
           newState.logs.length,
           'One Round log is added'
@@ -139,17 +146,20 @@ describe('Reducer specs:', function () {
             {
                 name: 'P0',
                 gesture: 'scissors',
-                isWinner: false
+                isWinner: false,
+                wins: 0
             },
             {
                 name: 'P1',
                 gesture: 'scissors',
-                isWinner: false
+                isWinner: false,
+                wins: 0
             },
             {
                 name: 'P2',
                 gesture: 'scissors',
-                isWinner: false
+                isWinner: false,
+                wins: 0
             }
         ]);
     });
@@ -163,6 +173,12 @@ describe('Reducer specs:', function () {
     it('Reducer should handle REMOVE_BOT', function () {
         var newState = Reducer(state, Actions.removeBot());
         expect(newState.players.length).to.equal(2);
+    });
+
+    it('Reducer should handle UPDATE_GESTURES', function () {
+        var newGestures = ['1', '2', '3'];
+        var newState = Reducer(state, Actions.updateGestures(newGestures));
+        expect(newState.gestures).to.equal(newGestures);
     });
 
     it('Reducer should throw an error if action is undefined', function () {

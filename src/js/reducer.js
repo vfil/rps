@@ -2,7 +2,7 @@
 
 var Actions = require('./actions.js');
 /**
- * Function single point entry for mutation the state.
+ * Single entry point for mutation the state.
  * Action parameter object should should have a type property.
  * Throws an error if action is undefined, doesn't have type property
  * or action type property is not resolved to any state mutation function.
@@ -10,7 +10,7 @@ var Actions = require('./actions.js');
  * @param {object} action - an object that describes change.
  */
 module.exports = function (state, action) {
-    if(!action || typeof action.type !== 'string') {
+    if (!action || typeof action.type !== 'string') {
         throw new Error('Dispatched action is null/undefined or action.type is not a string');
     }
     switch (action.type) {
@@ -30,6 +30,10 @@ module.exports = function (state, action) {
             return addBot(state, action);
         case Actions.types.REMOVE_BOT:
             return removeBot(state, action);
+        case Actions.types.UPDATE_GESTURES:
+            return updateGestures(state, action);
+        case Actions.types.RESET_PLAYERS_GESTURES:
+            return resetPlayersGestures(state, action);
     }
 
     throw new Error('Reducer did not match a state mutation for' + action.type);
@@ -104,6 +108,7 @@ function setBotsGesture(state, action) {
  */
 function countdownStart(state, action) {
     state.counting = true;
+    state.scored = false;
     return state;
 }
 
@@ -115,7 +120,7 @@ function countdownStart(state, action) {
  * @returns {object}
  */
 function nextCount(state, action) {
-    state.info = action.count;
+    state.count = action.count;
     return state;
 }
 
@@ -128,16 +133,20 @@ function nextCount(state, action) {
  */
 function score(state, action) {
     state.counting = false;
-    //TODO view logic???
-    state.info = action.winner ? action.winner.getName() + ' wins !!!' : 'TIE!!!';
+    state.scored = true;
+    state.winner = action.winner;
+    //compute current round log
     var log = state.players.map(function (player) {
         return {
             name: player.getName(),
             gesture: player.getGesture(),
-            isWinner: player === action.winner
+            wins: player.getWins(),
+            isWinner: player === state.winner
         }
     });
     state.logs.unshift(log);
+    //we are interested only in 3 last logs, unless we implement machine learning
+    state.logs = state.logs.slice(0, 3);
     return state;
 }
 
@@ -161,8 +170,34 @@ function addBot(state, action) {
  * @returns {object}
  */
 function removeBot(state, action) {
-    //TODO we can't just remove all players!!!
-    //TODO mutable
-    state.players.pop();
+    var players = state.players;
+    state.players = players.slice(0, players.length - 1);
+    return state;
+}
+
+/**
+ * Updates gesture list.
+ * @private
+ * @param {object} state
+ * @param {object} action
+ * @returns {*}
+ */
+function updateGestures(state, action) {
+    state.gestures = action.gestures;
+    return state;
+}
+
+/**
+ * Resets all players gestures.
+ * @private
+ * @param {object} state
+ * @param {object} action
+ * @returns {*}
+ */
+function resetPlayersGestures(state, action) {
+    state.players = state.players.map(function (player) {
+        player.resetGesture();
+        return player;
+    });
     return state;
 }
