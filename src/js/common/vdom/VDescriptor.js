@@ -20,7 +20,7 @@ var VDescriptor = function () {};
 //Is it ok to put fields on functions? Babel does so for syntactical sugar es6 classes static methods.
 //Heard a lot of complains but no reasons, at the end function is an object.
 VDescriptor.createFactory = function (type) {
-
+    //TODO Object.create polyfill
     //create fresh prototype for each factory and descriptor,
     // as type of descriptor is saved on prototype for later initialization.
     var descriptorPrototype = Object.create(VDescriptor.prototype);

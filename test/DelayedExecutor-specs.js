@@ -4,13 +4,14 @@ var expect = require('chai').expect;
 var delayedExecutor = require('../src/js/delayedExecutor.js');
 
 describe('DelayedExecutor specs:', function () {
-    //TODO unreliable, think about it.
     it('Counter should call callback function at specific interval', function (done) {
-        var countInterval = 100;
+        var countInterval = 200;
         var args = ['arg1', 'arg2'];
         function func() {
+            //testing that call is delayed, setTimeout is system dependent
+            //so we test only the fact of delaying.
             expect(
-              isApproximate(new Date().getTime(), startTime + countInterval, 50),
+              isApproximate(new Date().getTime(), startTime + countInterval, 100),
               'callback is called at approximate right interval'
             ).to.be.true;
             expect(

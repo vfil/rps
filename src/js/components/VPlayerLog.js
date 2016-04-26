@@ -2,13 +2,15 @@
 
 var VTag = require('../common/vdom/VTag.js');
 var VComponent = require('../common/vdom/VComponent.js');
+var toClassname = require('../common/utils.js').toClassname;
 
 module.exports = VComponent.createClass({
     render: function() {
-        //TODO write utils to work with class attributes
-        var directionClass = this.props.index % 2 ? ' log-left' : '';
-        var isWinnerClass = this.props.isWinner ? ' winner' : '';
-        var className = this.props.gesture + '-log' + ' log-icon' + isWinnerClass + directionClass;
+        var iconClass = this.props.gesture + '-log';
+        var className = toClassname('log-icon', iconClass, {
+            winner: this.props.isWinner,
+            'log-left': this.props.index % 2
+        });
         return VTag.span({className: className}, '');
     }
 });

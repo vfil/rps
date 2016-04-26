@@ -22,8 +22,6 @@ module.exports = VComponent.createClass({
         });
         var infoPane = VInfoPane({info: this.props.info, logs: this.props.logs});
 
-        //var addPlayer = VTag.button({onClick: this.props.addBot}, 'Add bot');
-        //var removePlayer = VTag.button({onClick: this.props.removeBot}, 'remove bot');
-        return VTag.div({className: 'container'}, [leftPane, infoPane, rightPane/*, addPlayer, removePlayer*/]);
+        return VTag.div({className: 'container'}, [leftPane, infoPane, rightPane]);
     }
 });

@@ -67,7 +67,6 @@ VComponent.createClass = function (spec) {
     ComponentMixin.prototype = new VComponent();
     ComponentMixin.prototype.constructor = ComponentMixin;
 
-    //TODO check if spec overrides some important properties.
     //copy spec into ComponentMixin
     var proto = ComponentMixin.prototype;
     for (var name in spec) {

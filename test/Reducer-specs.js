@@ -4,6 +4,9 @@ var expect = require('chai').expect;
 var Reducer = require('../src/js/reducer.js');
 var Actions = require('../src/js/actions.js');
 var Player = require('../src/js/domain/player.js');
+var Judge = require('../src/js/domain/judge.js');
+var LogStore = require('../src/js/domain/logStore.js');
+var GuessStrategy = require('../src/js/domain/guessStrategy.js');
 
 describe('Reducer specs:', function () {
     var state;
@@ -51,7 +54,10 @@ describe('Reducer specs:', function () {
     });
 
     it('Reducer should handle SET_BOTS_GESTURE', function () {
-        var newState = Reducer(state, Actions.setBotsGestures());
+        var guessStrategy = GuessStrategy();
+        var logs = LogStore().getLogs();
+        var judge = Judge();
+        var newState = Reducer(state, Actions.setBotsGestures(guessStrategy, logs, judge));
 
         var filteredPlayers = newState.players.filter(function(player) {
             return !player.getGesture();

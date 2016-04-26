@@ -54,7 +54,7 @@ var VDOM = module.exports = {
         if (!listeners[uid]) {
             listeners[uid] = {};
         }
-        //TODO do we need support of multiple handlers per event???
+        //TODO do we need support of multiple handlers per event? By now works fine.
         listeners[uid][eType] = listener;
     },
 

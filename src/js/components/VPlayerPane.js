@@ -3,6 +3,7 @@
 var VTag = require('../common/vdom/VTag.js');
 var VComponent = require('../common/vdom/VComponent.js');
 var VPlayer = require('./VPlayer.js');
+var toClassname = require('../common/utils.js').toClassname;
 
 module.exports = VComponent.createClass({
     render: function() {
@@ -16,8 +17,9 @@ module.exports = VComponent.createClass({
             });
         }.bind(this));
 
-        var className = 'pane' + (this.props.mirror ? ' mirror' : '');
-
+        var className = toClassname('pane', {
+            mirror: this.props.mirror
+        });
         return VTag.div({className: className}, playerViews);
     }
 });

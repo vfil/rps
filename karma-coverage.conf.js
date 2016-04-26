@@ -22,7 +22,15 @@ module.exports = function (config) {
                 postLoaders: [ { //delays coverage til after tests are run, fixing transpiled source coverage error
                     test: /\.js$/,
                     exclude: /(test|node_modules)\//,
-                    loader: 'istanbul-instrumenter' } ]
+                    loader: 'istanbul-instrumenter' }],
+                noParse: [
+                    /\/sinon\.js/
+                ]
+            },
+            resolve: {
+                alias: {
+                    sinon: 'sinon/pkg/sinon'
+                }
             }
         },
         webpackServer: {

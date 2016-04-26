@@ -1,11 +1,15 @@
 'use strict';
 
 var expect = require('chai').expect;
+var sinon = require('sinon');
 var Player = require('../src/js/domain/player.js');
 var reducer = require('../src/js/reducer.js');
 var Store = require('../src/js/common/store.js');
 var Actions = require('../src/js/actions.js');
 var delayedExecutor = require('./testUtils.js').delayedExecutor;
+var Judge = require('../src/js/domain/judge.js');
+var LogStore = require('../src/js/domain/logStore.js');
+var GuessStrategy = require('../src/js/domain/guessStrategy.js');
 var patchStore = require('./testUtils.js').patchStore;
 var RPS = require('../src/js/rps.js');
 
@@ -28,6 +32,7 @@ describe('RPS game 2 players specs:', function () {
             expect(props.gestures).to.eql(expectedGestures);
             done();
         }
+
         initRPS(store, renderFunc);
     });
 
@@ -78,6 +83,7 @@ describe('RPS game 2 players specs:', function () {
             ).to.be.false;
             done();
         }
+
         initRPS(store, renderFunc);
     });
 
@@ -116,56 +122,44 @@ describe('RPS game 2 players specs:', function () {
     });
 
     it('Rps should set random gesture for player', function () {
-        var game = initRPS(store);
-        var getActions = patchStore(store);
+        var renderFunc = function () {};
+        var judge = Judge();
+        var guessStrategy = GuessStrategy();
+        var spy = sinon.spy(guessStrategy, 'random');
+        var logStore = LogStore();
+        var game = initRPS(store, renderFunc, judge, guessStrategy, logStore);
         game.chooseRandomGesture();
-        var action = getActions()[0];
-        expect(
-          action.type,
-          'Action type is correct'
-        ).to.equal(Actions.types.GESTURE_CHANGE);
-        expect(
-          action.playerName,
-          'Player is correct'
-        ).to.equal('You');
-        expect(
-          typeof action.gesture,
-          'Gesture is set'
-        ).to.equal('string');
+        expect(spy.calledWith(['rock', 'paper', 'scissors'])).to.be.true;
     });
 
     it('Rps should NOT set same random gesture for player in a row', function () {
         //pretend user already has a gesture selected
         players[0].setGesture('rock');
-        var game = initRPS(store);
-        var getActions = patchStore(store);
+        var renderFunc = function () {};
+        var judge = Judge();
+        var guessStrategy = GuessStrategy();
+        var spy = sinon.spy(guessStrategy, 'random');
+        var logStore = LogStore();
+        var game = initRPS(store, renderFunc, judge, guessStrategy, logStore);
         game.chooseRandomGesture();
-        var action = getActions()[0];
-        expect(
-          action.type,
-          'Action type is correct'
-        ).to.equal(Actions.types.GESTURE_CHANGE);
-        expect(
-          action.playerName,
-          'Player is correct'
-        ).to.equal('You');
-        expect(
-          typeof action.gesture,
-          'Gesture is set'
-        ).to.equal('string');
-        //TODO not reliable, decouple random from rps module, think of mocking to a 'predictable' random
-        expect(
-          action.gesture,
-          'Gesture is not repeating'
-        ).to.not.equal('rock');
+        expect(spy.calledWith(['paper', 'scissors'])).to.be.true;
     });
 
-    it('Rps should set random gesture for bots', function () {
-        var actions = recordActionsOnGestureChange(store, initRPS(store), 'You', 'rock');
+    it('Rps should choose gestures for bots', function () {
+        var renderFunc = function () {};
+        var judge = Judge();
+        var guessStrategy = GuessStrategy();
+        var logStore = LogStore();
+        var game = initRPS(store, renderFunc, judge, guessStrategy, logStore);
+        var actions = recordActionsOnGestureChange(store, game, 'You', 'rock');
+        var action = actions[1];
         var expectedAction = {
-            type: Actions.types.SET_BOTS_GESTURE
+            type: Actions.types.SET_BOTS_GESTURE,
+            guessStategy: guessStrategy,
+            logStore: logStore,
+            judge: judge
         };
-        expect(actions[1]).to.eql(expectedAction);
+        expect(action).to.eql(expectedAction);
     });
 
     it('Rps should start counting on initial gesture change', function () {
@@ -340,9 +334,13 @@ describe('RPS game 2 players specs:', function () {
     });
 
     //helper functions
-    function initRPS(store, renderFunc) {
-        renderFunc = renderFunc || function() {};
-        return RPS(players, store, renderFunc, delayedExecutor);
+    function initRPS(store, renderFunc, judge, guessStrategy, logStore) {
+        renderFunc = renderFunc || function () {
+          };
+        judge = judge || Judge();
+        guessStrategy = guessStrategy || GuessStrategy();
+        logStore = logStore || LogStore();
+        return RPS(players, store, renderFunc, delayedExecutor, judge, guessStrategy, logStore);
     }
 
     function recordActionsOnGestureChange(store, game, name, gesture) {

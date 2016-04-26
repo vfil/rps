@@ -1,7 +1,7 @@
 'use strict';
 var Round = require('./round.js');
 /**
- * Game class. Exposes API to interact with core application.
+ * Game class. Represents core game.
  * @module Game
  */
 module.exports = function () {
@@ -32,14 +32,15 @@ module.exports = function () {
          * Score current round. Returns a Player or null in case of TIE score.
          * Will throw an error if round was not started before.
          * @public
+         * @param {Judge} judge - Judge instance.
          * @returns {Player|null}
          */
-        score: function() {
+        score: function(judge) {
             if(!round) {
                 throw new Error('Rule violation, round must be started before scoring game!!!');
             }
 
-            return round.score();
+            return round.score(judge);
         }
     };
 };

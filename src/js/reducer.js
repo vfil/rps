@@ -86,14 +86,31 @@ function gestureChange(state, action) {
  * @param {object} action
  * @returns {object}
  */
+//TODO is this reducer concern???
 function setBotsGesture(state, action) {
-    //TODO try to predict player gesture based on previous selected gestures
-    state.players.filter(function (player) {
+
+    var bots = state.players.filter(function (player) {
         return !player.isHuman();
-    }).forEach(function (player) {
-        var randomIndex = Math.floor(Math.random() * state.gestures.length);
-        player.setGesture(state.gestures[randomIndex]);
     });
+
+    var humans = state.players.filter(function (player) {
+        return player.isHuman();
+    });
+
+    if(bots.length === 1 && humans.length === 1) {
+       //in this case we can try to guess
+        var human = humans[0];
+        var bot = bots[0];
+        var gesture = action.guessStategy.guess(human.getName(), action.logStore, state.gestures, action.judge);
+        bot.setGesture(gesture);
+    } else {
+        //guesses in this case make no sense
+        //we pick random gestures for each bot
+        bots.forEach(function (player) {
+            var gesture = action.guessStategy.random(state.gestures);
+            player.setGesture(gesture);
+        });
+    }
 
     state.players = state.players.slice(0);
     return state;
