@@ -42,4 +42,22 @@ utils.escapeTextForBrowser = function(text) {
     return ('' + text).replace(ESCAPE_REGEX, escaper);
 };
 
+utils.toClassname = function() {
+    var classes = [];
+    for(var i = 0; i < arguments.length; i++) {
+        var arg = arguments[i];
+
+        if(arg && typeof arg === 'string') {
+            classes.push(arg);
+        } else if(typeof arg === 'object') {
+            for(var key in arg) {
+                if(arg.hasOwnProperty(key) && arg[key]) {
+                    classes.push(key);
+                }
+            }
+        }
+    }
+    return classes.join(' ');
+};
+
 module.exports = utils;

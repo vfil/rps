@@ -168,7 +168,6 @@ describe('VDOM specs - one nested level:', function () {
         ).to.equal(0);
     });
 
-    //TODO find a way to check listeners removal without breaking encapsulation
     it('should remove nodes and listeners', function () {
         VDOM.render(ComponentClass(props), container);
         props.friends.splice(0, 1);

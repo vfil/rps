@@ -1,6 +1,7 @@
 'use strict';
 
 var Game = require('./domain/game.js');
+var Judge = require('./domain/judge.js');
 var Player = require('./domain/player.js');
 var Actions = require('./actions.js');
 
@@ -13,13 +14,13 @@ var Actions = require('./actions.js');
  *  @param {function} delayedExecutor - Function helper to execute function at specified timeout.
  * @returns {object}
  */
-module.exports = function (players, store, renderFunc, delayedExecutor) {
+module.exports = function (players, store, renderFunc, delayedExecutor, judge, guessStrategy, logStore) {
     //initialize game gestures and players
     var gestures = ['rock', 'paper', 'scissors'];
     var extendedGestures = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
     var counts = ['Ro!', 'Sham!', 'Bo!'];
     //countdown interval before announcing winner
-    var countInterval = 700;
+    var countInterval = 1000;
 
     var initialState = {
         players: players,
@@ -93,8 +94,8 @@ module.exports = function (players, store, renderFunc, delayedExecutor) {
         if (index !== -1) {
             gestures.splice(index, 1);
         }
-        var randomIndex = Math.floor(Math.random() * gestures.length);
-        changeGesture(player.getName(), gestures[randomIndex]);
+        var gesture = guessStrategy.random(gestures);
+        changeGesture(player.getName(), gesture);
     }
 
     /**
@@ -141,16 +142,21 @@ module.exports = function (players, store, renderFunc, delayedExecutor) {
     function announceWinner() {
         var state = store.getState();
         game.startRound(state.players, state.gestures);
-        var winner = game.score();
+        var winner = game.score(judge);
         if (winner) {
             winner.incrementWins();
         }
         store.dispatch(Actions.score(winner));
+        recordGestures(state.players);
         delayedExecutor(resetGestures, countInterval);
     }
 
+    /**
+     * Resets gestures for all players, usually called at the end of the round.
+     */
     function resetGestures() {
         var state = store.getState();
+        //TODO hard to test without async behavior
         if (state.scored) {
             store.dispatch(Actions.resetPlayersGestures());
         }
@@ -162,7 +168,7 @@ module.exports = function (players, store, renderFunc, delayedExecutor) {
      * @private
      */
     function count() {
-        store.dispatch(Actions.setBotsGestures());
+        store.dispatch(Actions.setBotsGestures(guessStrategy, logStore, judge));
         store.dispatch(Actions.countdownStart());
         counts.forEach(function (count, index) {
             delayedExecutor(countOnce, countInterval * index, [count])
@@ -177,5 +183,11 @@ module.exports = function (players, store, renderFunc, delayedExecutor) {
      */
     function countOnce(count) {
         store.dispatch(Actions.countdown(count));
+    }
+
+    function recordGestures(players) {
+        players.forEach(function (player) {
+            logStore.record(player.getName(), player.getGesture());
+        });
     }
 };

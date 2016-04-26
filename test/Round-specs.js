@@ -4,15 +4,18 @@ var expect = require('chai').expect;
 
 var Player = require('../src/js/domain/player.js');
 var Round = require('../src/js/domain/round.js');
+var Judge = require('../src/js/domain/judge.js');
 
 //TODO: investigate mocha test generators
 describe('Game specs:', function () {
 
     var gestures = ["rock", "paper", "scissors"];
     var player1, player2;
+    var judge;
     beforeEach(function () {
         player1 = new Player('Human');
         player2 = new Player('Computer');
+        judge = Judge();
     });
 
     it('#play() Player1: Rock, Player2: Scissors', function () {
@@ -21,7 +24,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.eql(player1);
+        expect(round.score(judge)).to.eql(player1);
     });
 
     it('#play() Player1: Rock, Player2: Paper', function () {
@@ -30,7 +33,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.eql(player2);
+        expect(round.score(judge)).to.eql(player2);
     });
 
     it('#play() Player1: Scissors, Player2: Paper', function () {
@@ -39,7 +42,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.eql(player1);
+        expect(round.score(judge)).to.eql(player1);
     });
 
     it('#play() Player1: Rock, Player2: Rock', function () {
@@ -48,7 +51,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.be.null;
+        expect(round.score(judge)).to.be.null;
     });
 
     it('#play() Player1: Paper, Player2: Paper', function () {
@@ -57,7 +60,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.be.null;
+        expect(round.score(judge)).to.be.null;
     });
 
     it('#play() Player1: Scissors, Player2: Scissors', function () {
@@ -66,7 +69,7 @@ describe('Game specs:', function () {
 
         var round = Round([player1, player2], gestures);
 
-        expect(round.score()).to.be.null;
+        expect(round.score(judge)).to.be.null;
     });
 
     it('#isScored() should return whether round is scored', function () {
@@ -76,7 +79,7 @@ describe('Game specs:', function () {
         var round = Round([player1, player2], gestures);
 
         expect(round.isScored()).to.equal(false);
-        round.score();
+        round.score(judge);
         expect(round.isScored()).to.equal(true);
     });
 
@@ -84,9 +87,9 @@ describe('Game specs:', function () {
         player1.setGesture(gestures[2]);
         player2.setGesture(gestures[2]);
         var round = Round([player1, player2], gestures);
-        round.score();
+        round.score(judge);
         function wrapper() {
-            round.score();
+            round.score(judge);
         }
 
         expect(wrapper).to.throw(Error);
@@ -98,7 +101,7 @@ describe('Game specs:', function () {
         player2.setGesture(gestures[0]);
         var round = Round([player1, player2], gestures);
         function wrapper() {
-            round.score();
+            round.score(judge);
         }
         expect(wrapper).to.throw(Error);
     });
@@ -109,7 +112,7 @@ describe('Game specs:', function () {
         player2.setGesture(gestures[0]);
         var round = Round([player1, player2], gestures);
         function wrapper() {
-            round.score();
+            round.score(judge);
         }
         expect(wrapper).to.throw(Error);
     });
@@ -119,7 +122,7 @@ describe('Game specs:', function () {
         player2.setGesture("Lizard");
         var round = Round([player1, player2], gestures);
         function wrapper() {
-            round.score();
+            round.score(judge);
         }
         expect(wrapper).to.throw(Error);
     });

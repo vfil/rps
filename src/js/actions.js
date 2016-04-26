@@ -58,9 +58,12 @@ module.exports = {
      * Action to set gesture for bot player.
      * @returns {object}
      */
-    setBotsGestures: function () {
+    setBotsGestures: function (guessStrategy, logStore, judge) {
         return {
-            type: this.types.SET_BOTS_GESTURE
+            type: this.types.SET_BOTS_GESTURE,
+            guessStategy: guessStrategy,
+            logStore: logStore,
+            judge: judge
         }
     },
     /**

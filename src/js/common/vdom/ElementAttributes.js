@@ -6,7 +6,6 @@
  * @module vdom/ElementAttributes
  */
 
-//TODO use Object.freeze in dev env
 module.exports = {
     /**
      * Custom attribute name which maps Component to rendered Element

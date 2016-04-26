@@ -11,7 +11,7 @@ module.exports = VComponent.createClass({
             playersLog.index = index;
             return VPlayerLog(playersLog);
         });
-        var cssClass = 'log index' + this.props.index;
-        return VTag.div({className: cssClass}, playerLogs);
+        var className = 'log index' + this.props.index;
+        return VTag.div({className: className}, playerLogs);
     }
 });
