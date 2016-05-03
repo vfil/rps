@@ -80,6 +80,7 @@ module.exports = {
      * @param {string} count
      * @returns {object}
      */
+    //TODO try to define JSDocs to return more info about return type
     countdown: function (count) {
         return {
             type: this.types.COUNTDOWN,

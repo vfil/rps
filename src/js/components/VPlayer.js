@@ -6,10 +6,10 @@ var VGestures = require('./VGestures.js');
 
 module.exports = VComponent.createClass({
     render: function() {
-        return VTag.div({className: 'inline-block'},
+        return VTag.div({className: 'text-center'},
             [
-                VTag.span({className: 'heading3'}, this.props.player.name),
-                VTag.span({className: 'player-wins heading3'}, this.props.player.wins),
+                VTag.span({className: 'heading1'}, this.props.player.name),
+                VTag.span({className: 'player-wins heading1'}, this.props.player.wins),
                 VGestures({
                     counting: this.props.counting,
                     player: this.props.player,

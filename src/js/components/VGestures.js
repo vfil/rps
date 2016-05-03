@@ -17,6 +17,6 @@ module.exports = VComponent.createClass({
                 onGestureChange: this.props.onGestureChange
             });
         }.bind(this));
-        return VTag.div(null, gesturesView);
+        return VTag.div({className: 'row punches'}, gesturesView);
     }
 });

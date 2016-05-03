@@ -9,6 +9,6 @@ module.exports = VComponent.createClass({
     render: function() {
         var logs = VRoundLogs({logs: this.props.logs});
         var info = VInfo({info: this.props.info});
-        return VTag.div({className: 'pane heading3 text-center'}, [info, logs]);
+        return VTag.div({className: 'col-12 col-land-4 col-large-4'}, [info, logs]);
     }
 });
