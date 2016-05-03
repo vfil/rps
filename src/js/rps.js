@@ -1,7 +1,6 @@
 'use strict';
 
 var Game = require('./domain/game.js');
-var Judge = require('./domain/judge.js');
 var Player = require('./domain/player.js');
 var Actions = require('./actions.js');
 
@@ -12,6 +11,9 @@ var Actions = require('./actions.js');
  * @param {Store} store - Store instance.
  * @param {function} renderFunc - Function to receive state on each update.
  *  @param {function} delayedExecutor - Function helper to execute function at specified timeout.
+ * @param {Judge} judge
+ * @param {GuessStrategy} guessStrategy
+ * @param {LogStore} logStore
  * @returns {object}
  */
 module.exports = function (players, store, renderFunc, delayedExecutor, judge, guessStrategy, logStore) {
@@ -20,7 +22,7 @@ module.exports = function (players, store, renderFunc, delayedExecutor, judge, g
     var extendedGestures = ['rock', 'paper', 'scissors', 'spock', 'lizard'];
     var counts = ['Ro!', 'Sham!', 'Bo!'];
     //countdown interval before announcing winner
-    var countInterval = 1000;
+    var countInterval = 500;
 
     var initialState = {
         players: players,
@@ -56,7 +58,7 @@ module.exports = function (players, store, renderFunc, delayedExecutor, judge, g
      * @private
      */
     function render() {
-        //TODO just for fun try node js console game view
+        //TODO just for fun try nodejs console game view
         //update our injected view
         renderFunc(store.getState(), handlers);
     }
@@ -73,6 +75,8 @@ module.exports = function (players, store, renderFunc, delayedExecutor, judge, g
         store.dispatch(Actions.gestureChange(playerName, gesture));
         //start round counting if needed, as gesture change serves a signal to start it.
         if (!store.getState().counting) {
+            //TODO not reducer concern, set each gesture apart from here
+            store.dispatch(Actions.setBotsGestures(guessStrategy, logStore, judge));
             //countdown provided words
             count();
         }
@@ -168,7 +172,6 @@ module.exports = function (players, store, renderFunc, delayedExecutor, judge, g
      * @private
      */
     function count() {
-        store.dispatch(Actions.setBotsGestures(guessStrategy, logStore, judge));
         store.dispatch(Actions.countdownStart());
         counts.forEach(function (count, index) {
             delayedExecutor(countOnce, countInterval * index, [count])

@@ -17,11 +17,11 @@ module.exports = VComponent.createClass({
             counting: this.props.counting,
             players: this.props.rightPane,
             gestures: this.props.gestures,
-            mirror: true,
-            onGestureChange: this.props.changeGesture
+            onGestureChange: this.props.changeGesture,
+            mirror: true
         });
         var infoPane = VInfoPane({info: this.props.info, logs: this.props.logs});
 
-        return VTag.div({className: 'container'}, [leftPane, infoPane, rightPane]);
+        return VTag.div({className: 'row'}, [leftPane, infoPane, rightPane]);
     }
 });

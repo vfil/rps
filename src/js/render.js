@@ -74,13 +74,18 @@ function splitPlayers(players) {
 }
 
 function computeInfo(state) {
+    var info = {};
     if (state.scored) {
-        return state.winner ? (state.winner.isHuman() ? 'You win!' : 'You lost!') : 'TIE!';
+        info.message = state.winner ? (state.winner.isHuman() ? 'You win!' : 'You lost!') : 'TIE!';
+        info.hint = 'Choose your throw!'
     } else if (state.counting) {
-        return state.count;
+        info.message = state.count;
+        info.hint = 'You can still change gesture!'
+    } else {
+        info.message = 'Choose your throw!';
+        info.hint = 'Feeling lucky? Hit enter or space!';
     }
-
-    return 'Choose your punch! Feeling lucky? Hit enter or space!';
+    return info;
 }
 
 function bindHighLevelEvents(handlers) {

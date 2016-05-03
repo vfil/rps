@@ -14,6 +14,11 @@ module.exports = VComponent.createClass({
             human: this.props.human,
             active:this.props.active
         });
-        return Vtag.button({className: className, onClick: this.onClick.bind(this)}, '');
+        var button = Vtag.button({
+            className: className,
+            onClick: this.onClick.bind(this)
+        }, '');
+
+        return Vtag.div({className: 'col-4 col-land-12 col-large-12 text-center'}, [button]);
     }
 });

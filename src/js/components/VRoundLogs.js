@@ -14,6 +14,6 @@ module.exports = VComponent.createClass({
             });
         });
 
-        return VTag.div(null, roundLogs);
+        return VTag.div({className: 'logs text-center'}, roundLogs);
     }
 });

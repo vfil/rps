@@ -6,8 +6,10 @@ var toClassname = require('../common/utils.js').toClassname;
 
 module.exports = VComponent.createClass({
     render: function() {
-        var iconClass = this.props.gesture + '-log';
-        var className = toClassname('log-icon', iconClass, {
+        var iconClass = this.props.index % 2
+          ? 'icon-' + this.props.gesture + '-m'
+          : 'icon-' + this.props.gesture;
+        var className = toClassname(iconClass, {
             winner: this.props.isWinner,
             'log-left': this.props.index % 2
         });
