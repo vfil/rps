@@ -2,16 +2,15 @@
 
 var expect = require('chai').expect;
 
-var VDOM = require('../src/js/common/vdom/VDOM.js');
 var VTag = require('../src/js/common/vdom/VTag.js');
 var VComponent = require('../src/js/common/vdom/VComponent.js');
 
 describe('VComponent specs:', function () {
 
     var render,
-      component,
-      descriptor,
-      props = {foo: 'bar'};
+        component,
+        descriptor,
+        props = {foo: 'bar'};
 
     beforeEach(function () {
         render = function () {
@@ -38,7 +37,7 @@ describe('VComponent specs:', function () {
 
     it('#createClass should throw an error if provided spec is not valid', function () {
         var wrapperFn = function () {
-            VComponent.createClass({render: null})
+            VComponent.createClass({render: null});
         };
         expect(
           wrapperFn,

@@ -11,22 +11,35 @@ describe('Player specs:', function () {
         player = new Player('Bob', true);
     });
 
-    it("#getName() should return player's name", function () {
+    it('#getName() should return player\'s name', function () {
         expect(player.getName(), 'Player returned wrong name')
           .to.equal('Bob');
     });
 
-    it("#setGesture() should set player's gesture", function () {
+    it('#setGesture() should set player\'s gesture', function () {
         player.setGesture('spock');
         expect(player.getGesture()).to.equal('spock');
     });
 
-    it("#isHuman() should show if player is human", function () {
+    it('#isHuman() should show if player is human', function () {
         expect(player.isHuman()).to.equal(true);
     });
 
     it('#incrementWins should increment wins', function () {
         player.incrementWins();
         expect(player.getWins()).to.equal(1);
+    });
+
+    it('#resetWins should reset wins', function () {
+        player.incrementWins();
+        player.incrementWins();
+        player.incrementWins();
+        player.resetWins();
+        expect(player.getWins()).to.equal(0);
+    });
+
+    it('#incrementGameWins should increment players game wins', function () {
+        player.incrementGameWins();
+        expect(player.getGameWins()).to.equal(1);
     });
 });

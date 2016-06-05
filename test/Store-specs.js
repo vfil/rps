@@ -5,7 +5,7 @@ var Store = require('../src/js/common/store.js');
 
 describe('Store specs:', function () {
     var store,
-      initialState;
+        initialState;
 
     beforeEach(function() {
         initialState = {
@@ -99,7 +99,7 @@ describe('Store specs:', function () {
         function listener2() {
             localCount2 = store.getState().count;
         }
-        var unsubscribe2 = store.subscribe(listener2);
+        store.subscribe(listener2);
         store.dispatch({
             type: 'INCREMENT'
         });

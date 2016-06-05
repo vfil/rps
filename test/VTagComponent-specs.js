@@ -3,14 +3,13 @@
 var expect = require('chai').expect;
 
 var VComponent = require('../src/js/common/vdom/VComponent.js');
-var VTagComponent = require('../src/js/common/vdom/VTagComponent.js');
 var VTag = require('../src/js/common/vdom/VTag.js');
 
 describe('VTagComponent specs:', function () {
 
     var component,
-      props,
-      countClick = 0;
+        props,
+        countClick = 0;
     beforeEach(function () {
         props = {
             className: 'active',

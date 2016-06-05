@@ -1,0 +1,323 @@
+@import "_reset.css";
+@import "_grid.css";
+@import "_icons.css";
+@import "mixins";
+
+$bg-color: #388E3C;
+$text-color: #fff;
+$btn-blue: #039BE5;
+$btn-lila: #5E35B1;
+
+
+html, body {
+  height: 100%;
+  background: $bg-color;
+  color: $text-color;
+  font-family: serif;
+}
+
+.outer {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.container {
+  height: 100%;
+}
+
+.pane-player {
+  position: relative;
+  height: 30%;
+}
+
+.pane-info {
+  position: relative;
+  height: 40%;
+}
+
+.pane-info-inner {
+  @include absolute-vertical-align;
+}
+
+.player {
+  @include absolute-vertical-align;
+}
+
+.heading1 {
+  font-size: 1.3em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.info {
+  min-height: 34px;
+}
+
+.info-hint {
+  font-size: 0.8em;
+}
+
+.score {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 2px 5px;
+  @include bevel-border(#87B389, #037708);
+}
+
+.wins {
+  margin: 0 10px;
+  padding: 0 5px;
+  @include bevel-border(#87B389, #037708);
+}
+
+.player-score {
+  margin: 0 5px;
+}
+
+.punches {
+  margin: 4% 0;
+}
+
+.punch {
+  padding: 34%;
+  background-color: $btn-blue;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  transition: transform ease 0.1s, background ease 1s;
+  /* fix on tap blue highlight color for chrome mobile*/
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.human.punch {
+  cursor: pointer;
+}
+
+.human.punch:hover {
+  background-color: #9c0033;
+}
+
+.human.punch:focus {
+  background-color: #5E35B1;
+}
+
+.human.punch.active {
+  background-color: #9c0033;
+  transform: rotate(60deg);
+}
+
+.punch.active {
+  background-color: #9c0033;
+  transform: rotate(60deg);
+}
+
+.mirror {
+
+  .punch {
+    background-color: $btn-lila;
+  }
+
+  .punch.active {
+    transform: rotate(-60deg);
+  }
+
+  .paper {
+    background-image: url('./imgs/paper-left.svg');
+  }
+
+  .rock {
+    background-image: url('./imgs/rock-left.svg');
+  }
+
+  .scissors {
+    background-image: url('./imgs/scissors-left.svg');
+  }
+}
+
+.punch:active, .punch:focus {
+  outline: 0;
+}
+
+.paper {
+  background-image: url('./imgs/paper.svg');
+}
+
+.rock {
+  background-image: url('./imgs/rock.svg');
+}
+
+.scissors {
+  background-image: url('./imgs/scissors.svg');
+}
+
+.logs {
+  min-height: 50px;
+}
+
+.log {
+  position: relative;
+  margin: 0 auto;
+  padding: 4px 0;
+  white-space: nowrap;
+}
+
+.log:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  width: 70%;
+  border-bottom: 1px solid #fff;
+}
+
+.log.index0 {
+  width: 80%;
+  font-size: 1.4em;
+}
+
+.log.index1 {
+  width: 60%;
+  font-size: 1.2em;
+  display: none;
+}
+
+.log.index2 {
+  width: 40%;
+  font-size: 1em;
+  display: none;
+}
+
+.player-log {
+  margin: 0 5px;
+}
+
+/* Landscape and wide screens */
+@media only screen and (orientation: landscape),
+only screen and (min-width: 30em /* 480px */) {
+  .outer {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
+  }
+
+  .pane-player {
+    height: auto;
+  }
+
+  .pane-info {
+    position: relative;
+    height: auto;
+  }
+
+  .pane-info-inner {
+    position: static;
+    transform: none;
+  }
+
+  .player {
+    position: static;
+    transform: none;
+  }
+
+  .log.index1 {
+    display: block;
+  }
+
+  .log.index2 {
+    display: block;
+  }
+}
+
+/* landscape view sizes */
+@media only screen and (orientation: landscape) {
+
+  .punch {
+    padding: 13%;
+    margin: 2% 0;
+    border-width: 2px;
+  }
+
+  .heading1 {
+    font-size: 1.1em;
+  }
+
+  .info-hint {
+    font-size: 0.8em;
+  }
+}
+
+/* Nexus5 with address bar and up height */
+@media only screen and (min-height: 32em /* 512px */) {
+  .log.index1 {
+    display: block;
+  }
+
+  .log.index2 {
+    display: block;
+  }
+
+  .heading1 {
+    font-size: 1.4em;
+  }
+
+  .logs {
+    font-size: 1em;
+  }
+
+  .info {
+    min-height: 40px;
+  }
+
+  .info-hint {
+    font-size: 1em;
+  }
+}
+
+@media only screen and (min-width: 30em /* 612 px */) {
+  .punch {
+    padding: 10%;
+    margin: 1%;
+  }
+
+  .heading1 {
+    font-size: 1.2em;
+  }
+
+  .logs {
+    font-size: 0.8em;
+  }
+
+  .info {
+    min-height: 40px;
+  }
+
+  .info-hint {
+    font-size: 0.9em;
+  }
+}
+
+@media only screen and (min-width: 64em /* 1024 px */) {
+  .punch {
+    padding: 50px;
+    margin: 10px;
+  }
+
+  .heading1 {
+    font-size: 2em;
+  }
+
+  .logs {
+    font-size: 1.6em;
+  }
+
+  .info {
+    min-height: 60px;
+  }
+
+  .info-hint {
+    font-size: 1em;
+  }
+}

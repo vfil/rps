@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var Actions = require('../src/js/actions.js');
 
 describe('Actions specs:', function () {
-    //TODO mocha test generator???
+
     it('#gestureChange should create proper action', function () {
         var name = 'Player1';
         var expectedAction = {
@@ -31,6 +31,22 @@ describe('Actions specs:', function () {
             winner: dummyWinner
         };
         expect(Actions.score(dummyWinner)).to.eql(expectedAction);
+    });
+
+    it('#resetPlayersWins should create proper action', function () {
+        var expectedAction = {
+            type: 'RESET_PLAYERS_WINS'
+        };
+        expect(Actions.resetPlayersWins()).to.eql(expectedAction);
+    });
+
+    it('#gameEnd should create proper action', function () {
+        var dummyWinner = {};
+        var expectedAction = {
+            type: 'GAME_END',
+            winner: dummyWinner
+        };
+        expect(Actions.gameEnd(dummyWinner)).to.eql(expectedAction);
     });
 
     it('#addBot should create proper action', function () {

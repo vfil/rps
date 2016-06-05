@@ -38,5 +38,5 @@ module.exports = function() {
         getLogs: function (key) {
             return logs[key];
         }
-    }
+    };
 };

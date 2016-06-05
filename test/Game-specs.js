@@ -6,11 +6,11 @@ var Player = require('../src/js/domain/player.js');
 var Judge = require('../src/js/domain/judge.js');
 
 describe('Game specs:', function () {
-    var game;
-    var judge;
-    var gestures = ['rock', 'paper', 'scissors'];
-    var player1 = Player('Sandu', true);
-    var player2 = Player('Computer1');
+    var game,
+        judge,
+        gestures = ['rock', 'paper', 'scissors'],
+        player1 = Player('Sandu', true),
+        player2 = Player('Computer1');
 
     beforeEach(function () {
         game = Game();

@@ -45,6 +45,9 @@ module.exports = function (config) {
             module: {
                 noParse: [
                     /\/sinon\.js/
+                ],
+                preLoaders: [
+                    {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
                 ]
             },
             resolve: {

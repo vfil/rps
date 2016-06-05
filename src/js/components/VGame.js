@@ -20,8 +20,13 @@ module.exports = VComponent.createClass({
             onGestureChange: this.props.changeGesture,
             mirror: true
         });
-        var infoPane = VInfoPane({info: this.props.info, logs: this.props.logs});
+        var infoPane = VInfoPane({
+            leftScore: this.props.leftPane[0].wins,
+            rightScore: this.props.rightPane[0].wins,
+            info: this.props.info,
+            logs: this.props.logs
+        });
 
-        return VTag.div({className: 'row'}, [leftPane, infoPane, rightPane]);
+        return VTag.div({className: 'container row'}, [leftPane, infoPane, rightPane]);
     }
 });

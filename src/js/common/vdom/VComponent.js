@@ -1,6 +1,5 @@
 'use strict';
 
-var VDOM = require('./VDOM.js');
 var VDescriptor = require('./VDescriptor.js');
 
 /**
@@ -148,9 +147,8 @@ VComponent.prototype.performUpdate = function (nextDescriptor) {
 
 /**
  * Updates Children components.
- * @param {VDescriptor} prevDescriptor - previous instance of component descriptor.
  */
-VComponent.prototype.updateComponent = function (prevDescriptor) {
+VComponent.prototype.updateComponent = function () {
     var prevComponentInstance = this._renderedComponent;
     var nextDescriptor = this._render();
     prevComponentInstance.performUpdate(nextDescriptor);
