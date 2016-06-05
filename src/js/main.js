@@ -2,7 +2,6 @@
 
 //styles
 require('../css/style.scss');
-require('../css/imgs/favicon.ico');
 
 var reducer = require('./reducer.js');
 var Player = require('./domain/player.js');

@@ -22,8 +22,12 @@ module.exports = function (buildPath) {
                     loaders: ['file-loader?name=/fonts/[hash].[ext]']
                 },
                 {
-                    test: /\.(svg|ico)(\?[a-z0-9=&.]+)?$/,
+                    test: /\.(svg)(\?[a-z0-9=&.]+)?$/,
                     loaders: ['file-loader?name=/imgs/[hash].[ext]']
+                },
+                {
+                    test: /\.ico$/,
+                    loaders: ['file-loader?name=/imgs/[name].[ext]']
                 }
             ]
         },
