@@ -11,8 +11,9 @@ module.exports = function Player(name, isHuman) {
      * Current selected gesture.
      * @private
      */
-    var gesture;
-    var wins = 0;
+    var gesture,
+        wins = 0,
+        gameWins = 0;
 
     return {
         /**
@@ -73,6 +74,22 @@ module.exports = function Player(name, isHuman) {
          */
         getWins: function () {
             return wins;
+        },
+        /**
+         * Resets current player wins to zero.
+         */
+        resetWins: function () {
+            wins = 0;
+        },
+        /**
+         * Returns number of game wins.
+         * @returns {number}
+         */
+        getGameWins: function () {
+            return gameWins;
+        },
+        incrementGameWins: function () {
+            gameWins++;
         }
-    }
+    };
 };

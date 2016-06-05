@@ -5,16 +5,15 @@ var expect = require('chai').expect;
 var VDOM = require('../src/js/common/vdom/VDOM.js');
 var VTag = require('../src/js/common/vdom/VTag.js');
 var VComponent = require('../src/js/common/vdom/VComponent.js');
-var VDescriptor = require('../src/js/common/vdom/VDescriptor.js');
 
 describe('VDOM specs - one nested level:', function () {
 
     var container,
-      ComponentClass,
-      eventClickCount = 0,
-      eventMouseMoveCount = 0,
-      props,
-      newProps;
+        ComponentClass,
+        eventClickCount = 0,
+        eventMouseMoveCount = 0,
+        props,
+        newProps;
 
     beforeEach(function () {
         container = document.createElement('div');
@@ -139,7 +138,7 @@ describe('VDOM specs - one nested level:', function () {
         rootComponent.click();
         expect(eventClickCount).to.equal(1);
         VDOM.render(ComponentClass(newProps), container);
-        var rootComponent = container.firstChild;
+        rootComponent = container.firstChild;
         rootComponent.click();
         expect(eventClickCount).to.equal(0);
     });
@@ -188,9 +187,9 @@ describe('VDOM specs - one nested level:', function () {
 describe('VDOM specs - two nested level:', function () {
 
     var container,
-      ComponentClass,
-      props,
-      newProps;
+        ComponentClass,
+        props,
+        newProps;
 
     beforeEach(function () {
         container = document.createElement('div');

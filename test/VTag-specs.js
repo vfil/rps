@@ -3,7 +3,6 @@
 var expect = require('chai').expect;
 var VTag = require('../src/js/common/vdom/VTag.js');
 var VDescriptor = require('../src/js/common/vdom/VDescriptor.js');
-var VComponent = require('../src/js/common/vdom/VComponent.js');
 
 describe('VTag specs:', function () {
 

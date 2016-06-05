@@ -10,12 +10,13 @@ var types = {
     GESTURE_CHANGE: null,
     COUNTDOWN: null,
     COUNTDOWN_START: null,
-    SET_BOTS_GESTURE: null,
     SCORE: null,
+    GAME_END: null,
     ADD_BOT: null,
     REMOVE_BOT: null,
     UPDATE_GESTURES: null,
-    RESET_PLAYERS_GESTURES: null
+    RESET_PLAYERS_GESTURES: null,
+    RESET_PLAYERS_WINS: null
 };
 
 var typesObj = utils.generateDynamicProps(types, keyMirror);
@@ -38,7 +39,7 @@ module.exports = {
         return {
             type: this.types.INIT_STATE,
             state: initialState
-        }
+        };
     },
     /**
      * Action to set gesture for player.
@@ -52,19 +53,7 @@ module.exports = {
             type: this.types.GESTURE_CHANGE,
             gesture: gesture,
             playerName: playerName
-        }
-    },
-    /**
-     * Action to set gesture for bot player.
-     * @returns {object}
-     */
-    setBotsGestures: function (guessStrategy, logStore, judge) {
-        return {
-            type: this.types.SET_BOTS_GESTURE,
-            guessStategy: guessStrategy,
-            logStore: logStore,
-            judge: judge
-        }
+        };
     },
     /**
      * Action to mark state with countdown start event.
@@ -73,19 +62,18 @@ module.exports = {
     countdownStart: function () {
         return {
             type: this.types.COUNTDOWN_START
-        }
+        };
     },
     /**
      * Action to compute state on next countdown event.
      * @param {string} count
      * @returns {object}
      */
-    //TODO try to define JSDocs to return more info about return type
     countdown: function (count) {
         return {
             type: this.types.COUNTDOWN,
             count: count
-        }
+        };
     },
     /**
      * Action for scoring the game.
@@ -96,7 +84,18 @@ module.exports = {
         return {
             type: this.types.SCORE,
             winner: winner
-        }
+        };
+    },
+    /**
+     * Action for ending the game.
+     * @param {Player|null} winner
+     * @returns {object}
+     */
+    gameEnd: function (winner) {
+        return {
+            type: this.types.GAME_END,
+            winner: winner
+        };
     },
     /**
      * Action to add a new bot to the game.
@@ -107,7 +106,7 @@ module.exports = {
         return {
             type: this.types.ADD_BOT,
             player: bot
-        }
+        };
     },
     /**
      * Action to remove last bot from the game.
@@ -116,7 +115,7 @@ module.exports = {
     removeBot: function () {
         return {
             type: this.types.REMOVE_BOT
-        }
+        };
     },
 
     /**
@@ -128,7 +127,7 @@ module.exports = {
         return {
             type: this.types.UPDATE_GESTURES,
             gestures: gestures
-        }
+        };
     },
 
     /**
@@ -138,7 +137,17 @@ module.exports = {
     resetPlayersGestures: function () {
         return {
             type: this.types.RESET_PLAYERS_GESTURES
-        }
+        };
+    },
+
+    /**
+     * Action to reset wins for all players
+     * @returns {object}
+     */
+    resetPlayersWins: function () {
+        return {
+            type: this.types.RESET_PLAYERS_WINS
+        };
     }
 };
 

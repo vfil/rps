@@ -1,7 +1,6 @@
 'use strict';
 
 var ElementAttributes = require('./ElementAttributes.js');
-var utils = require('../utils.js');
 
 /**
  * A virtual representation of DOM for rendering and updating DOM Elements.
@@ -47,7 +46,7 @@ var VDOM = module.exports = {
      * @param {Function} listener - event handler function.
      */
     addListener: function (uid, eType, listener) {
-        if(typeof listener !== 'function') {
+        if (typeof listener !== 'function') {
             throw new Error('listener argument must be a function!!!');
         }
 
@@ -148,7 +147,7 @@ var VDOM = module.exports = {
      */
     updateAttributeByID: function (uid, name, value) {
         var node = getNode(uid);
-        node.setAttribute(ElementAttributes.attributeNames[name], '' + value)
+        node.setAttribute(ElementAttributes.attributeNames[name], '' + value);
     }
 };
 
@@ -254,7 +253,6 @@ function updateRootComponent(prevComponent, nextDescriptor) {
  * @returns {string} UID - UID of root Component
  */
 function registerComponent(componentInstance, container) {
-    //TODO improve this later allowing to render multiple root components on the same page
     //Always start with 0 index for root Component
     var UID = ElementAttributes.ATTR_SEPARATOR + '0';
     containersByRootID[UID] = container;
@@ -284,8 +282,6 @@ function getID(node) {
     return node && node.getAttribute && node.getAttribute(ElementAttributes.UID_ATTR_NAME);
 }
 
-
-//TODO find a better way to collect ALL event types
 /**
  * Adds listeners to to provided container.
  * These listeners are used to trigger registered listeners at bubbling phase.
@@ -349,7 +345,8 @@ function processUpdates(updateList, markupList) {
 
     //process remove before new markup for consistency.
     var update;
-    for (var i = updateList.length - 1; update = updateList[i]; i--) {
+    for (var i = updateList.length - 1; i >= 0; i--) {
+        update = updateList[i];
         if (update.type === UPDATE_TYPES.REMOVE_NODE) {
             var updatedIndex = update.fromIndex;
             var updatedChild = update.parentNode.childNodes[updatedIndex];
@@ -358,7 +355,8 @@ function processUpdates(updateList, markupList) {
     }
 
     var renderedMarkup = nodesFromHtml(markupList.join(''));
-    for (var k = 0; update = updateList[k]; k++) {
+    for (var k = 0; k < updateList.length; k++) {
+        update = updateList[k];
         switch (update.type) {
             case UPDATE_TYPES.INSERT_MARKUP:
                 var parentNode = update.parentNode;

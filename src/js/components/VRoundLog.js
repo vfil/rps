@@ -18,7 +18,7 @@ module.exports = VComponent.createClass({
         } else if(logs[1].isWinner) {
             arrow = 'icon-arrow-left';
         } else {
-            arrow = 'icon-equals';
+            arrow = 'icon-repeat';
         }
 
         playerLogs.splice(1, 0, VTag.span({className: arrow}, ''));

@@ -96,5 +96,5 @@ describe('GuessStrategy guess specs:', function () {
 function recordThrows(key, throws, logStore) {
     throws.forEach(function (log) {
         logStore.record(key, log);
-    })
+    });
 }

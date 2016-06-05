@@ -17,23 +17,23 @@ module.exports = function () {
          */
         //TODO improve this algorithm. Ex: if user predicts this algorithm, predict that user predicts this algorithm. ;)
         guess: function (key, logStore, options, judge) {
-            logStore = logStore.getLogs(key);
+            var logs = logStore.getLogs(key);
 
             //4 sequence pattern seems ok.
             var length = 4;
             //we need at least length + 1 entries in logs for guess
-            if(!logStore || (logStore.length <= length)) {
+            if(!logs || (logs.length <= length)) {
                 return this.random(options);
             }
 
             //prevent too much recursion, and improve performance
             var limit = 3000;
-            if(logStore.length > limit) {
-                logStore = logStore.splice(logStore.length - limit, logStore.length);
+            if(logs.length > limit) {
+                logs = logs.splice(logs.length - limit, logs.length);
             }
 
             //get most likely gestures opponent could play.
-            var guesses = tryToGuess(logStore, length, options);
+            var guesses = tryToGuess(logs, length, options);
 
             //no reasons to guess, based on previous logs.
             if(!guesses) {
@@ -48,6 +48,8 @@ module.exports = function () {
                 return judge.getWinningGesture(nextGuesses[0], options);
             } else {
                 //pick safest gesture if possible when there is more then one guess.
+                //Attention!!! This violates unprediction behavior. Player can easily use it against, when he guess it.
+                //This is left intentionally, to get a chance to win for smart players.
                 var tieOrWinOption = judge.pickWinner(nextGuesses, options);
                 if(tieOrWinOption) {
                     return tieOrWinOption;
@@ -61,7 +63,7 @@ module.exports = function () {
         /**
          * Returns a random option.
          * @public
-         * @param {*[]} options - array from which to pick random value.
+         * @param {Array} options - array from which to pick random value.
          * @returns {*}
          */
         random: random
@@ -134,8 +136,8 @@ module.exports = function () {
     /**
      * Shallow check if two arrays are equal and have the same order.
      * @private
-     * @param {[]} arr1
-     * @param {[]} arr2
+     * @param {Array} arr1
+     * @param {Array} arr2
      * @returns {boolean}
      */
     function equals(arr1, arr2) {
@@ -151,7 +153,7 @@ module.exports = function () {
      * Checks of provided array contains provided item.
      * @private
      * @param {*} item
-     * @param {[]} arr
+     * @param {Array} arr
      * @returns {boolean}
      */
     function contains(item, arr) {

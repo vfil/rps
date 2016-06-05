@@ -19,6 +19,6 @@ module.exports = VComponent.createClass({
             onClick: this.onClick.bind(this)
         }, '');
 
-        return Vtag.div({className: 'col-4 col-land-12 col-large-12 text-center'}, [button]);
+        return Vtag.div({className: 'col-4 col-large-12 text-center'}, [button]);
     }
 });

@@ -18,14 +18,14 @@ module.exports = function (state, action) {
             return initState(state, action);
         case Actions.types.GESTURE_CHANGE:
             return gestureChange(state, action);
-        case Actions.types.SET_BOTS_GESTURE:
-            return setBotsGesture(state, action);
         case Actions.types.COUNTDOWN_START:
             return countdownStart(state, action);
         case Actions.types.COUNTDOWN:
             return nextCount(state, action);
         case Actions.types.SCORE:
             return score(state, action);
+        case Actions.types.GAME_END:
+            return gameEnd(state, action);
         case Actions.types.ADD_BOT:
             return addBot(state, action);
         case Actions.types.REMOVE_BOT:
@@ -34,9 +34,11 @@ module.exports = function (state, action) {
             return updateGestures(state, action);
         case Actions.types.RESET_PLAYERS_GESTURES:
             return resetPlayersGestures(state, action);
+        case Actions.types.RESET_PLAYERS_WINS:
+            return resetPlayersWins(state, action);
     }
 
-    throw new Error('Reducer did not match a state mutation for' + action.type);
+    throw new Error('Reducer did not match a state mutation for ' + action.type);
 };
 
 /**
@@ -76,43 +78,6 @@ function gestureChange(state, action) {
         state.players = newPlayers;
     }
 
-    return state;
-}
-
-/**
- * Sets random gestures for bots.
- * @private
- * @param {object} state
- * @param {object} action
- * @returns {object}
- */
-//TODO is this reducer concern???
-function setBotsGesture(state, action) {
-
-    var bots = state.players.filter(function (player) {
-        return !player.isHuman();
-    });
-
-    var humans = state.players.filter(function (player) {
-        return player.isHuman();
-    });
-
-    if(bots.length === 1 && humans.length === 1) {
-       //in this case we can try to guess
-        var human = humans[0];
-        var bot = bots[0];
-        var gesture = action.guessStategy.guess(human.getName(), action.logStore, state.gestures, action.judge);
-        bot.setGesture(gesture);
-    } else {
-        //guesses in this case make no sense
-        //we pick random gestures for each bot
-        bots.forEach(function (player) {
-            var gesture = action.guessStategy.random(state.gestures);
-            player.setGesture(gesture);
-        });
-    }
-
-    state.players = state.players.slice(0);
     return state;
 }
 
@@ -159,11 +124,19 @@ function score(state, action) {
             gesture: player.getGesture(),
             wins: player.getWins(),
             isWinner: player === state.winner
-        }
+        };
     });
     state.logs.unshift(log);
-    //we are interested only in 3 last logs, unless we implement machine learning
     state.logs = state.logs.slice(0, 3);
+    if(state.winner) {
+        state.winner.incrementWins();
+    }
+    return state;
+}
+
+function gameEnd(state, action) {
+    state.winner = action.winner;
+    state.ended = true;
     return state;
 }
 
@@ -214,6 +187,21 @@ function updateGestures(state, action) {
 function resetPlayersGestures(state, action) {
     state.players = state.players.map(function (player) {
         player.resetGesture();
+        return player;
+    });
+    return state;
+}
+
+/**
+ * Resets all players wins.
+ * @private
+ * @param {object} state
+ * @param {object} action
+ * @returns {*}
+ */
+function resetPlayersWins(state, action) {
+    state.players = state.players.map(function (player) {
+        player.resetWins();
         return player;
     });
     return state;

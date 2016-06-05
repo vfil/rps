@@ -17,7 +17,7 @@ module.exports = VComponent.createClass({
             });
         }.bind(this));
 
-        var className = toClassname('col-12 col-land-4 col-large-4', {
+        var className = toClassname('pane-player col-12 col-large-4', {
             mirror: this.props.mirror
         });
         return VTag.div({className: className}, playerViews);

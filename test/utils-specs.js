@@ -21,7 +21,7 @@ describe('utils specs:', function () {
     });
 
     it('#escapeTextForBrowser replaces dangerous characters html entities', function () {
-        var str = "amp&,gt>,lt<,quot\",\'";
+        var str = 'amp&,gt>,lt<,quot\",\'';
         expect(utils.escapeTextForBrowser(str)).to.equal('amp&amp;,gt&gt;,lt&lt;,quot&quot;,&#x27;');
     });
 

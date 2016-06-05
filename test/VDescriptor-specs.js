@@ -7,8 +7,8 @@ var VComponent = require('../src/js/common/vdom/VComponent.js');
 describe('VDescriptor specs:', function () {
 
     var factory,
-      descriptor,
-      props = {foo: 'bar'};
+        descriptor,
+        props = {foo: 'bar'};
 
     beforeEach(function () {
         var Constructor = function (props) {

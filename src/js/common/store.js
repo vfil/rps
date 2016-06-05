@@ -41,7 +41,7 @@ module.exports = function (reducer, initialState) {
          * @returns {object} - current state representation.
          */
         getState: function () {
-            return currentState
+            return currentState;
         },
 
         /**
@@ -70,7 +70,7 @@ module.exports = function (reducer, initialState) {
             }
 
             for (var i = 0; i < listeners.length; i++) {
-                listeners[i]()
+                listeners[i]();
             }
         },
 
@@ -103,5 +103,5 @@ module.exports = function (reducer, initialState) {
                 }
             };
         }
-    }
+    };
 };

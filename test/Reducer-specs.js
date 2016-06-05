@@ -4,9 +4,6 @@ var expect = require('chai').expect;
 var Reducer = require('../src/js/reducer.js');
 var Actions = require('../src/js/actions.js');
 var Player = require('../src/js/domain/player.js');
-var Judge = require('../src/js/domain/judge.js');
-var LogStore = require('../src/js/domain/logStore.js');
-var GuessStrategy = require('../src/js/domain/guessStrategy.js');
 
 describe('Reducer specs:', function () {
     var state;
@@ -37,13 +34,13 @@ describe('Reducer specs:', function () {
 
     it('Reducer should handle INIT_STATE', function () {
         var actionState = {dummyField: {}};
-        var newState = Reducer(state, Actions.initState(actionState));
-        expect(newState).to.equal(actionState);
+        var nextState = Reducer(state, Actions.initState(actionState));
+        expect(nextState).to.equal(actionState);
     });
 
     it('Reducer should handle GESTURE_CHANGE', function () {
-        var newState = Reducer(state, Actions.gestureChange('P0', 'rock'));
-        expect(newState.players[0].getGesture()).to.equal('rock');
+        var nextState = Reducer(state, Actions.gestureChange('P0', 'rock'));
+        expect(nextState.players[0].getGesture()).to.equal('rock');
     });
 
     it('Reducer should handle GESTURE_CHANGE - non existing player', function () {
@@ -53,33 +50,14 @@ describe('Reducer specs:', function () {
         expect(wrapper).to.throw(Error);
     });
 
-    it('Reducer should handle SET_BOTS_GESTURE', function () {
-        var guessStrategy = GuessStrategy();
-        var logs = LogStore().getLogs();
-        var judge = Judge();
-        var newState = Reducer(state, Actions.setBotsGestures(guessStrategy, logs, judge));
-
-        var filteredPlayers = newState.players.filter(function(player) {
-            return !player.getGesture();
-        });
-        expect(
-          filteredPlayers.length,
-          'Human players have gesture untouched'
-        ).to.equal(1);
-        expect(
-          filteredPlayers[0].isHuman(),
-          'Human player is really human'
-        ).to.be.true;
-    });
-
     it('Reducer should handle COUNTDOWN_START', function () {
-        var newState = Reducer(state, Actions.countdownStart());
-        expect(newState.counting).to.be.true;
+        var nextState = Reducer(state, Actions.countdownStart());
+        expect(nextState.counting).to.be.true;
     });
 
     it('Reducer should handle COUNTDOWN', function () {
-        var newState = Reducer(state, Actions.countdown('Ro!'));
-        expect(newState.count).to.equal('Ro!');
+        var nextState = Reducer(state, Actions.countdown('Ro!'));
+        expect(nextState.count).to.equal('Ro!');
     });
 
     it('Reducer should handle SCORE - a player wins', function () {
@@ -90,17 +68,21 @@ describe('Reducer specs:', function () {
         state.players[1].setGesture('scissors');
         state.players[2].setGesture('scissors');
         var previousLogLength = state.logs.length;
-        var newState = Reducer(state, Actions.score(state.players[0]));
+        var nextState = Reducer(state, Actions.score(state.players[0]));
         expect(
-          newState.winner,
+          nextState.winner,
           'Winner is announced'
         ).to.eql(state.players[0]);
         expect(
-          newState.logs.length,
+          nextState.winner.getWins(),
+          'Winner round score is incremented'
+        ).to.eql(1);
+        expect(
+          nextState.logs.length,
           'One Round log is added'
         ).to.equal(previousLogLength + 1);
         expect(
-          newState.logs[0],
+          nextState.logs[0],
           'Round log has right information'
         ).to.eql([
             {
@@ -132,21 +114,21 @@ describe('Reducer specs:', function () {
         state.players[1].setGesture('scissors');
         state.players[2].setGesture('scissors');
         var previousLogLength = state.logs.length;
-        var newState = Reducer(state, Actions.score(null));
+        var nextState = Reducer(state, Actions.score(null));
         expect(
-          newState.winner,
+          nextState.winner,
           'TIE is announced'
         ).to.be.null;
         expect(
-          newState.scored,
+          nextState.scored,
           'Round is scored'
         ).to.be.true;
         expect(
-          newState.logs.length,
+          nextState.logs.length,
           'One Round log is added'
         ).to.equal(previousLogLength + 1);
         expect(
-          newState.logs[0],
+          nextState.logs[0],
           'Round log has right information'
         ).to.eql([
             {
@@ -170,21 +152,44 @@ describe('Reducer specs:', function () {
         ]);
     });
 
+    it('Reducer should handle GAME_END', function () {
+        var winner = state.players[0];
+        var nextState = Reducer(state, Actions.gameEnd(winner));
+        expect(
+          nextState.winner,
+          'winner is written to state'
+        ).to.equal(winner);
+
+        expect(
+          nextState.ended,
+          'state is marked properly'
+        ).to.be.true;
+    });
+
+    it('Reducer should handle RESET_PLAYERS_WINS', function () {
+        state.players[0].incrementWins();
+        state.players[0].incrementWins();
+        state.players[1].incrementWins();
+        var nextState = Reducer(state, Actions.resetPlayersWins());
+        expect(nextState.players[0].getWins()).to.equal(0);
+        expect(nextState.players[1].getWins()).to.equal(0);
+    });
+
     it('Reducer should handle ADD_BOT', function () {
         var p3 = Player('P3', false);
-        var newState = Reducer(state, Actions.addBot(p3));
-        expect(newState.players[3]).to.equal(p3);
+        var nextState = Reducer(state, Actions.addBot(p3));
+        expect(nextState.players[3]).to.equal(p3);
     });
 
     it('Reducer should handle REMOVE_BOT', function () {
-        var newState = Reducer(state, Actions.removeBot());
-        expect(newState.players.length).to.equal(2);
+        var nextState = Reducer(state, Actions.removeBot());
+        expect(nextState.players.length).to.equal(2);
     });
 
     it('Reducer should handle UPDATE_GESTURES', function () {
         var newGestures = ['1', '2', '3'];
-        var newState = Reducer(state, Actions.updateGestures(newGestures));
-        expect(newState.gestures).to.equal(newGestures);
+        var nextState = Reducer(state, Actions.updateGestures(newGestures));
+        expect(nextState.gestures).to.equal(newGestures);
     });
 
     it('Reducer should throw an error if action is undefined', function () {

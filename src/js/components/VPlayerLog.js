@@ -9,9 +9,8 @@ module.exports = VComponent.createClass({
         var iconClass = this.props.index % 2
           ? 'icon-' + this.props.gesture + '-m'
           : 'icon-' + this.props.gesture;
-        var className = toClassname(iconClass, {
-            winner: this.props.isWinner,
-            'log-left': this.props.index % 2
+        var className = toClassname('player-log', iconClass, {
+            winner: this.props.isWinner
         });
         return VTag.span({className: className}, '');
     }

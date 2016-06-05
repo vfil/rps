@@ -69,7 +69,7 @@ module.exports = function () {
             var position = getPosition(bet, options);
             //returns position starting form one, not as array index from 0
             return position + 1;
-        }
+        };
     }
 
     /**
@@ -102,7 +102,7 @@ module.exports = function () {
      * @returns {number}
      */
 
-    //TODO Add possibility to play unbalanced games, implement for ex. a strategy pattern.
+    //TODO Add possibility to play unbalanced games.
     //TODO Unbalanced game algorithm rely on Graph objects with vertices as gestures and directed edges as relations.
     function isGreater(x, y) {
 

@@ -19,11 +19,11 @@ utils.generateDynamicProps = function (obj, func) {
 };
 
 var ESCAPE_LOOKUP = {
-    "&": "&amp;",
-    ">": "&gt;",
-    "<": "&lt;",
-    "\"": "&quot;",
-    "'": "&#x27;"
+    '&': '&amp;',
+    '>': '&gt;',
+    '<': '&lt;',
+    '\'': '&#x27;',
+    '"': '&quot;'
 };
 
 var ESCAPE_REGEX = /[&><"']/g;
@@ -59,5 +59,7 @@ utils.toClassname = function() {
     }
     return classes.join(' ');
 };
+/* istanbul ignore next */
+utils.noop = function () {};
 
 module.exports = utils;
