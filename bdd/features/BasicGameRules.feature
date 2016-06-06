@@ -1,7 +1,7 @@
-Feature: Playing against Computer
-  As a frequent games player,
-  I’d like to play rock, paper, scissors against Computer
-  So that I can spend an hour of my day having fun.
+Feature: Basic Game Rules
+  As a game player,
+  I would like the game rules to be consistent with classical "rock-paper-scissors" game rules
+  So I have a sensation of familiarity while playing.
 
   Scenario: Rock crushes Scissors
     Given "Player" picks up "Rock"
