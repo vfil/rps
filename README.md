@@ -4,8 +4,8 @@ In browser rock-paper-scissors game.
 Is well suited for random seeking relaxation players, as well for strategic players that love puzzles.
 Believe or not, but there is some logic around!
    
-## Browser support
-Runs on IE 9 and up, recent versions of Chrome, Firefox, Safari, Edge.
+## Browser & device support
+Mobile friendly, runs on IE 9 and up, recent versions of Chrome, Firefox, Safari, Edge.
 
 ## Build
 To build application run in root directory:
